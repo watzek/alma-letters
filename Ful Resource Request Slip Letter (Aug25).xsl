@@ -273,6 +273,13 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 				<xsl:if test="notification_data/phys_item_display/edition != ''">
 					<tr><td><strong>@@edition@@: </strong><xsl:value-of select="notification_data/phys_item_display/edition"/></td></tr>
 				</xsl:if>
+	   			<!-- this section will display the volumes requested if they were indicated in the request -->
+    			<xsl:variable name="request_metadata_string" select="notification_data/incoming_request/request_metadata"/>
+    			<xsl:variable name="mv_volume_string" select="substring-after($request_metadata_string, 'dc:volume&gt;')"/>
+    			<xsl:variable name="mv_volume" select="substring-before($mv_volume_string, '&lt;/dc:volume')"/>
+    			<xsl:if test="$mv_volume != ''" >
+       				<tr><td><strong>Volume: </strong> <xsl:value-of select="$mv_volume"/></td></tr>
+     			</xsl:if> 							
 				<xsl:if test="notification_data/phys_item_display/imprint != ''">
 					<tr><td><strong>@@imprint@@: </strong><xsl:value-of select="notification_data/phys_item_display/imprint"/></td></tr>
 				</xsl:if>
